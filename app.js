@@ -12,19 +12,28 @@ Question.prototype.displayQuestion = function() {
 
     //display answer list
     for (let i = 0; i < this.answer.length; i++) {
-        console.log((i+1) + ": " + this.answer[i]);
+        console.log(i + 1 + ": " + this.answer[i]);
     }
 };
 
-
 //check correct answer
-Question.prototype.checkAns = function(ans) {
-    if(ans === this.correctAns) {
-        console.log('Correct!!');
+Question.prototype.checkAns = function(ans, callback) {
+    let sc;
+    if (ans === this.correctAns) {
+        console.log("Correct!!");
+        sc = callback(true);
     } else {
-        console.log('Wrond answer. Try again');
+        console.log("Wrond answer. Try again");
+        sc = callback(false);
     }
-}
+    this.displayScore(sc);
+};
+
+//display score
+Question.prototype.displayScore = function(score) {
+    console.log("Your current score is: " + score);
+    console.log("----------------------------");
+};
 
 //creating questions
 let q1 = new Question(
@@ -45,8 +54,28 @@ let q3 = new Question(
 
 let questions = [q1, q2, q3];
 
-let n = Math.floor(Math.random() * questions.length);
-questions[n].displayQuestion();
+//calculate score
+function score() {
+    let sc = 0;
+    return function(correctAns) {
+        if (correctAns) {
+            sc++;
+        }
+        return sc;
+    };
+}
 
-let answer = prompt('Please select the correct answer.');
-questions[n].checkAns(parseInt(answer));
+let keepScore = score();
+
+function nextQues() {
+    let n = Math.floor(Math.random() * questions.length);
+    questions[n].displayQuestion();
+
+    let answer = prompt("Please select the correct answer.");
+
+    if (answer !== "exit") {
+        questions[n].checkAns(parseInt(answer), keepScore);
+        nextQues();
+    }
+}
+nextQues();
