@@ -52,8 +52,18 @@
         ["1971", "1947"],
         1
     );
+    let q4 = new Question(
+        "Which district of Bangladesh was part of Assam?",
+        ["Chittagong", "Khulna", "Sylhet", "Jessore"],
+        3
+    );
+    let q4 = new Question(
+        "What is the Time Zone of Bangladesh?",
+        ["Utc + 5", "Utc - 6", "Utc + 6", "Utc - 5"],
+        3
+    );
 
-    let questions = [q1, q2, q3];
+    let questions = [q1, q2, q3, q4, q5];
 
     //calculate score
     function score() {
